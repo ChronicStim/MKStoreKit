@@ -36,10 +36,12 @@
 // To avoid making mistakes map plist entries to macros on this page.
 // when you include MKStoreManager in your clss, these macros get defined there
 
-#define kConsumableBaseFeatureId @"com.mycompany.myapp."
-#define kFeatureAId @"com.mugunthkumar.caltasks.propack"
-#define kConsumableFeatureBId @"com.mycompany.myapp.005"
-#define FishBasket @"FishBasket"
+//#define kConsumableBaseFeatureId @"com.chronicstimulation.chronicpaintracker."
+#define kFeatureTreatmentTrackersID @"com.chronicstimulation.chronicpaintracker.treatmentTrackers"
+#define kFeatureMentalHealthTrackersID @"com.chronicstimulation.chronicpaintracker.mentalTrackers"
+#define kFeatureFullAppVersionID @"com.chronicstimulation.paintracker.unlimiteddiaryentrysupport"
+//#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
+//#define FishBasket @"FishBasket"
 
 #define SERVER_PRODUCT_MODEL 0
 #define OWN_SERVER nil
