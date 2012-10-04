@@ -40,6 +40,7 @@
 #define kFeatureTreatmentTrackersID @"com.chronicstimulation.chronicpaintracker.treatmentTrackers"
 #define kFeatureMentalHealthTrackersID @"com.chronicstimulation.chronicpaintracker.mentalTrackers"
 #define kFeatureFullAppVersionID @"com.chronicstimulation.paintracker.unlimiteddiaryentrysupport"
+#define kFeatureMultiDiarySupportID @"com.chronicstimulation.paintracker.multidiarysupport"
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"
 
