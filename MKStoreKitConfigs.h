@@ -39,7 +39,7 @@
 //#define kConsumableBaseFeatureId @"com.chronicstimulation.chronicpaintracker."
 #define kFeatureTreatmentTrackersID @"com.chronicstimulation.chronicpaintracker.treatmentTrackers"
 #define kFeatureMentalHealthTrackersID @"com.chronicstimulation.chronicpaintracker.mentalTrackers"
-#define kFeatureFullAppVersionID @"com.chronicstimulation.paintracker.unlimiteddiaryentrysupport"
+#define kFeatureFullAppVersionID @"com.chronicstimulation.paintracker.unlimiteddiaryentry"
 #define kFeatureMultiDiarySupportID @"com.chronicstimulation.paintracker.multidiarysupport"
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"
@@ -48,5 +48,5 @@
 #define OWN_SERVER nil
 #define REVIEW_ALLOWED 0
 
-#warning Shared Secret Missing Ignore this warning if you don't use auto-renewable subscriptions
-#define kSharedSecret @"<FILL IN YOUR SHARED SECRET HERE>"
+//#warning Shared Secret Missing Ignore this warning if you don't use auto-renewable subscriptions
+#define kSharedSecret @"0ab41ee5f9a84b98a5b7081cf44d85a5"

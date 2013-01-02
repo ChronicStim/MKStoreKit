@@ -6,8 +6,7 @@
 	<dict/>
 	<key>Non-Consumables</key>
 	<array>
-		<string>com.chronicstimulation.paintracker.unlimiteddiaryentrysupport</string>
-		<string>com.chronicstimulation.paintracker.multidiarysupport</string>
+		<string>com.chronicstimulation.paintracker.unlimiteddiaryentry</string>
 	</array>
 	<key>Subscriptions</key>
 	<dict/>
