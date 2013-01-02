@@ -38,7 +38,7 @@
 #import "SFHFKeychainUtils.h"
 #import "MKSKSubscriptionProduct.h"
 #import "MKSKProduct.h"
-#import "NSData+Base64.h"
+#import "NSData+MKBase64.h"
 #if ! __has_feature(objc_arc)
 #error MKStoreKit is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
@@ -565,6 +565,24 @@ static MKStoreManager* _sharedStoreManager;
   
   if(self.hostedContentDownloadStatusChangedHandler)
     self.hostedContentDownloadStatusChangedHandler(self.hostedContents);
+  
+  // Finish any completed downloads
+  [hostedContents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    SKDownload *download = obj;
+    
+    switch (download.downloadState) {
+      case SKDownloadStateFinished:
+#ifndef NDEBUG
+        NSLog(@"Download finished: %@", [download description]);
+#endif
+        [self provideContent:download.transaction.payment.productIdentifier
+                  forReceipt:download.transaction.transactionReceipt
+               hostedContent:[NSArray arrayWithObject:download]];
+        
+        [[SKPaymentQueue defaultQueue] finishTransaction:download.transaction];
+        break;
+    }
+  }];
 }
 #endif
 
@@ -734,10 +752,18 @@ static MKStoreManager* _sharedStoreManager;
   NSArray *downloads = nil;
   
 #ifdef __IPHONE_6_0
-  downloads = transaction.downloads;
+  
+  if([transaction respondsToSelector:@selector(downloads)])
+    downloads = transaction.downloads;
+  
   if([downloads count] > 0) {
     
     [[SKPaymentQueue defaultQueue] startDownloads:transaction.downloads];
+    // We don't have content yet, and we can't finish the transaction
+#ifndef NDEBUG
+    NSLog(@"Download(s) started: %@", [transaction description]);
+#endif
+    return;
   }
 #endif
   
@@ -759,7 +785,18 @@ static MKStoreManager* _sharedStoreManager;
   NSArray *downloads = nil;
   
 #ifdef __IPHONE_6_0
-  downloads = transaction.downloads;
+  
+  if([transaction respondsToSelector:@selector(downloads)])
+    downloads = transaction.downloads;
+  if([downloads count] > 0) {
+    
+    [[SKPaymentQueue defaultQueue] startDownloads:transaction.downloads];
+    // We don't have content yet, and we can't finish the transaction
+#ifndef NDEBUG
+    NSLog(@"Download(s) started: %@", [transaction description]);
+#endif
+    return;
+  }
 #endif
   
   [self provideContent: transaction.originalTransaction.payment.productIdentifier
