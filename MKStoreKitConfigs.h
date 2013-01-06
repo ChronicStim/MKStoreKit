@@ -37,10 +37,12 @@
 // when you include MKStoreManager in your clss, these macros get defined there
 
 //#define kConsumableBaseFeatureId @"com.chronicstimulation.chronicpaintracker."
-#define kFeatureTreatmentTrackersID @"com.chronicstimulation.chronicpaintracker.treatmentTrackers"
-#define kFeatureMentalHealthTrackersID @"com.chronicstimulation.chronicpaintracker.mentalTrackers"
-#define kFeatureFullAppVersionID @"com.chronicstimulation.paintracker.unlimiteddiaryentry"
-#define kFeatureMultiDiarySupportID @"com.chronicstimulation.paintracker.multidiarysupport"
+#define kFeatureFullAppVersionID @"com.chronicstimulation.paintrackerlite.unlimiteddiaryentry"
+#define kFeatureMultiDiarySupportID @"com.chronicstimulation.paintrackerlite.multidiarysupport"
+#define kConsumableDiaryEntry50CountID @"com.chronicstimulation.paintrackerlite.diaryentry50"
+#define kConsumableDiaryEntry200CountID @"com.chronicstimulation.paintrackerlite.diaryentry200"
+#define kConsumableDiaryEntryProductName @"Diary Entries"
+
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"
 

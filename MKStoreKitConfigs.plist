@@ -3,10 +3,26 @@
 <plist version="1.0">
 <dict>
 	<key>Consumables</key>
-	<dict/>
+	<dict>
+		<key>com.chronicstimulation.paintrackerlite.diaryentry200</key>
+		<dict>
+			<key>Name</key>
+			<string>Diary Entries</string>
+			<key>Count</key>
+			<string>200</string>
+		</dict>
+		<key>com.chronicstimulation.paintrackerlite.diaryentry50</key>
+		<dict>
+			<key>Name</key>
+			<string>Diary Entries</string>
+			<key>Count</key>
+			<string>50</string>
+		</dict>
+	</dict>
 	<key>Non-Consumables</key>
 	<array>
-		<string>com.chronicstimulation.paintracker.unlimiteddiaryentry</string>
+		<string>com.chronicstimulation.paintrackerlite.unlimiteddiaryentry</string>
+		<string>com.chronicstimulation.paintrackerlite.multidiarysupport</string>
 	</array>
 	<key>Subscriptions</key>
 	<dict/>
