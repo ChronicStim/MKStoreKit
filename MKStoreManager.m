@@ -76,6 +76,7 @@ static MKStoreManager* _sharedStoreManager;
   
   NSUbiquitousKeyValueStore *iCloudStore = [NSUbiquitousKeyValueStore defaultStore];
   NSDictionary *dict = [iCloudStore dictionaryRepresentation];
+    NSLog(@"CloudStore: %@",dict);
   NSMutableArray *products = [self allProducts];
   
   [products enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

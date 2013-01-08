@@ -52,3 +52,11 @@
 
 //#warning Shared Secret Missing Ignore this warning if you don't use auto-renewable subscriptions
 #define kSharedSecret @"0ab41ee5f9a84b98a5b7081cf44d85a5"
+
+enum {
+    SPT_Feature = 0,
+    SPT_Consumable = 1,
+    SPT_Subscription = 2,
+    SPT_Unknown = 3
+};
+typedef int StoreProductType;
