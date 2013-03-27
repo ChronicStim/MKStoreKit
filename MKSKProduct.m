@@ -53,7 +53,7 @@ static NSMutableData *sDataFromConnection;
 #if TARGET_OS_IPHONE
   NSString *uniqueID;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  id uuid = [defaults objectForKey:@"uniqueID"];
+  id uuid = [defaults objectForKey:@"!uniqueID"];
   if (uuid)
     uniqueID = (NSString *)uuid;
   else {
@@ -61,7 +61,7 @@ static NSMutableData *sDataFromConnection;
     CFStringRef cfUuidString = CFUUIDCreateString(NULL, cfUuid);
     CFRelease(cfUuid);
     uniqueID = (__bridge NSString *)cfUuidString;
-    [defaults setObject:uniqueID forKey:@"uniqueID"];
+    [defaults setObject:uniqueID forKey:@"!uniqueID"];
     CFRelease(cfUuidString);
   }
   
