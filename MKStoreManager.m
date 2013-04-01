@@ -39,6 +39,8 @@
 #import "MKSKSubscriptionProduct.h"
 #import "MKSKProduct.h"
 #import "NSData+MKBase64.h"
+#import "PainTrackerAppDelegate.h"
+
 #if ! __has_feature(objc_arc)
 #error MKStoreKit is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
@@ -203,9 +205,15 @@ static MKStoreManager* _sharedStoreManager;
 
 +(NSDictionary*) storeKitItems
 {
-  return [NSDictionary dictionaryWithContentsOfFile:
+    NSString *configFileName;
+    if ([(PainTrackerAppDelegate *)[[UIApplication sharedApplication] delegate] checkIfLiteVersion]) {
+        configFileName = @"MKStoreKitConfigsLite.plist";
+    } else {
+        configFileName = @"MKStoreKitConfigsPro.plist";
+    }
+    return [NSDictionary dictionaryWithContentsOfFile:
           [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:
-           @"MKStoreKitConfigs.plist"]];
+           configFileName]];
 }
 
 - (void) restorePreviousTransactionsOnComplete:(void (^)(void)) completionBlock
