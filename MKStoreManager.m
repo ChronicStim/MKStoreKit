@@ -138,8 +138,10 @@ static MKStoreManager* _sharedStoreManager;
     if(error) NSLog(@"%@", error);
     
     if([self iCloudAvailable]) {
-      [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey:key];
-      [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+        if (nil != key) {
+            [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey:key];
+            [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+        }
     }
   }
 }
