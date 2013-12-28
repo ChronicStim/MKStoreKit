@@ -41,6 +41,9 @@
 #import "NSData+MKBase64.h"
 #import "PainTrackerAppDelegate.h"
 
+#define kProductKeyReceiptSuffixOld @"-receipt"
+#define kProductKeyReceiptSuffix @"-rct"
+
 #if ! __has_feature(objc_arc)
 #error MKStoreKit is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
@@ -148,9 +151,19 @@ static MKStoreManager* _sharedStoreManager;
 
 +(id) receiptForKey:(NSString*) key {
   
-  NSData *receipt = [MKStoreManager objectForKey:key];
-  if(!receipt)
-    receipt = [MKStoreManager objectForKey:[NSString stringWithFormat:@"%@-receipt", key]];
+    NSData *receipt = [MKStoreManager objectForKey:key];
+    if(!receipt) {
+        NSString *receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffixOld];
+        NSUInteger keyLength = [receiptKey length];
+        DDLogVerbose(@"Receipt OLD key (%u) = %@",keyLength,receiptKey);
+        receipt = [MKStoreManager objectForKey:receiptKey];
+        if (nil == receipt) {
+            receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffix];
+            NSUInteger keyLength = [receiptKey length];
+            DDLogVerbose(@"Receipt NEW key (%u) = %@",keyLength,receiptKey);
+            receipt = [MKStoreManager objectForKey:receiptKey];
+        }
+    }
   
   return receipt;
 }
@@ -159,6 +172,7 @@ static MKStoreManager* _sharedStoreManager;
 {
   NSError *error = nil;
   id password = [SFHFKeychainUtils getPasswordForUsername:key andServiceName:@"MKStoreKit" error:&error];
+    DDLogVerbose(@"MKStoreKit password = %@ for key: %@",password,key);
   if(error) NSLog(@"%@", error);
   
   return password;
@@ -697,7 +711,7 @@ static MKStoreManager* _sharedStoreManager;
     [MKStoreManager setObject:[NSNumber numberWithBool:YES] forKey:productIdentifier];
   }
   
-  [MKStoreManager setObject:receiptData forKey:[NSString stringWithFormat:@"%@-receipt", productIdentifier]];
+  [MKStoreManager setObject:receiptData forKey:[NSString stringWithFormat:@"%@%@", productIdentifier,kProductKeyReceiptSuffix]];
 }
 
 #pragma -
