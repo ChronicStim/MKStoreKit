@@ -42,6 +42,8 @@
 #define kConsumableDiaryEntry50CountID @"com.chronicstimulation.paintrackerlite.diaryentry50"
 #define kConsumableDiaryEntry200CountID @"com.chronicstimulation.paintrackerlite.diaryentry200"
 #define kConsumableDiaryEntryProductName @"Diary Entries"
+#define kFeatureComparisonReportID @"com.chronicstimulation.paintrackerlite.comparereport"
+#define kSubscriptionWeatherHistoryID @"com.chronicstimulation.paintrackerlite.weatherhist"
 
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"

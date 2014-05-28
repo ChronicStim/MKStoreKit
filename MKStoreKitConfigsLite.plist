@@ -23,8 +23,12 @@
 	<array>
 		<string>com.chronicstimulation.paintrackerlite.unlimiteddiaryentry</string>
 		<string>com.chronicstimulation.paintrackerlite.multidiarysupport</string>
+		<string>com.chronicstimulation.paintrackerlite.comparereport</string>
 	</array>
 	<key>Subscriptions</key>
-	<dict/>
+	<dict>
+		<key>com.chronicstimulation.paintrackerlite.weatherhist</key>
+		<integer>30</integer>
+	</dict>
 </dict>
 </plist>
