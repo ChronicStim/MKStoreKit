@@ -24,6 +24,7 @@
 		<string>com.chronicstimulation.paintrackerlite.unlimiteddiaryentry</string>
 		<string>com.chronicstimulation.paintrackerlite.multidiarysupport</string>
 		<string>com.chronicstimulation.paintrackerlite.comparereport</string>
+		<string>com.chronicstimulation.paintrackerlite.calendarreport</string>
 	</array>
 	<key>Subscriptions</key>
 	<dict>
