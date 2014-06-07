@@ -45,6 +45,7 @@
 #define kFeatureComparisonReportID @"com.chronicstimulation.paintrackerlite.comparereport"
 #define kFeatureCalendarReportID @"com.chronicstimulation.paintrackerlite.calendarreport"
 #define kSubscriptionWeatherHistoryID @"com.chronicstimulation.paintrackerlite.weatherhist"
+#define kSubscriptionWeatherHistoryProID @"com.chronicstimulation.paintracker.weatherhist"
 
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"
