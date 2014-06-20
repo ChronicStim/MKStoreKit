@@ -28,8 +28,12 @@
 	</array>
 	<key>Subscriptions</key>
 	<dict>
-		<key>com.chronicstimulation.paintrackerlite.weatherhist</key>
+		<key>com.chronicstimulation.paintrackerlite.weatherhist01</key>
 		<integer>30</integer>
+		<key>com.chronicstimulation.paintrackerlite.weatherhist06</key>
+		<integer>183</integer>
+		<key>com.chronicstimulation.paintrackerlite.weatherhist12</key>
+		<integer>365</integer>
 	</dict>
 </dict>
 </plist>
