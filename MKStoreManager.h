@@ -59,6 +59,7 @@
 
 @property (nonatomic, strong) NSMutableArray *purchasableObjects;
 @property (nonatomic, strong) NSMutableDictionary *subscriptionProducts;
+@property (nonatomic, strong) NSMutableDictionary *nonRenewSubscriptionProducts;
 #ifdef __IPHONE_6_0
 @property (strong, nonatomic) NSMutableArray *hostedContents;
 @property (nonatomic, copy) void (^hostedContentDownloadStatusChangedHandler)(NSArray* hostedContent);
@@ -80,7 +81,12 @@
 // For consumable support
 - (BOOL) canConsumeProduct:(NSString*) productName quantity:(int) quantity;
 - (BOOL) consumeProduct:(NSString*) productName quantity:(int) quantity;
+
 - (BOOL) isSubscriptionActive:(NSString*) featureId;
+
+// For Non-Renewable Subscription Support
+- (BOOL) isNonRenewSubscriptionProductActive:(NSString*) productName;
+- (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
 
 // for testing proposes you can use this method to remove all the saved keychain data (saved purchases, etc.)
 - (BOOL) removeAllKeychainData;
@@ -90,6 +96,8 @@
 +(id) receiptForKey:(NSString*) key;
 +(void) setObject:(id) object forKey:(NSString*) key;
 +(NSNumber*) numberForKey:(NSString*) key;
++(NSDate *)dateForKey:(NSString *)key;
++(void) setDate:(NSDate *)date forKey:(NSString*) key;
 
 +(NSDictionary*) storeKitItems;
 

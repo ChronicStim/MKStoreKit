@@ -50,6 +50,7 @@
 #define kSubscriptionWeatherHistoryPro06ID @"com.chronicstimulation.paintracker.weatherhist06"
 #define kSubscriptionWeatherHistory12ID @"com.chronicstimulation.paintrackerlite.weatherhist12"
 #define kSubscriptionWeatherHistoryPro12ID @"com.chronicstimulation.paintracker.weatherhist12"
+#define kNonRenewSubscriptionWeatherHistoryProductName @"Weather History"
 
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"
 //#define FishBasket @"FishBasket"
@@ -65,6 +66,7 @@ enum {
     SPT_Feature = 0,
     SPT_Consumable = 1,
     SPT_Subscription = 2,
-    SPT_Unknown = 3
+    SPT_Unknown = 3,
+    SPT_NonRenewSubscription = 4
 };
 typedef int StoreProductType;

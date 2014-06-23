@@ -40,6 +40,8 @@
 #import "MKSKProduct.h"
 #import "NSData+MKBase64.h"
 #import "PainTrackerAppDelegate.h"
+#import "MKSKNonRenewSubscriptionProduct.h"
+#import "NSDate-Utilities.h"
 
 #define kProductKeyReceiptSuffixOld @"-receipt"
 #define kProductKeyReceiptSuffix @"-rct"
@@ -125,6 +127,9 @@ static MKStoreManager* _sharedStoreManager;
     {
       objectString = [(NSNumber*)object stringValue];
     }
+      if ([object isKindOfClass:[NSString class]]) {
+          objectString = [(NSString *)object copy];
+      }
     
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:key andPassword:objectString forServiceName:@"MKStoreKit" updateExisting:YES error:&error];
@@ -189,6 +194,30 @@ static MKStoreManager* _sharedStoreManager;
   return [str dataUsingEncoding:NSUTF8StringEncoding];
 }
 
++(NSDate *) dateForKey:(NSString*) key
+{
+    NSString *str = [MKStoreManager objectForKey:key];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    DDLogVerbose(@"Returning date: %@ from string: %@ for key: %@",[dateFormatter dateFromString:str],str,key);
+    return [dateFormatter dateFromString:str];
+}
+
++(void) setDate:(NSDate *)date forKey:(NSString*) key;
+{
+    if (nil == date) {
+        [MKStoreManager setObject:nil forKey:key];
+    } else {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        NSString *str = [dateFormatter stringFromDate:date];
+        DDLogVerbose(@"Storing date: %@ with string: %@ for key: %@",date,str,key);
+        [MKStoreManager setObject:str forKey:key];
+    }
+}
+
 #pragma mark Singleton Methods
 
 + (MKStoreManager*)sharedManager
@@ -211,7 +240,6 @@ static MKStoreManager* _sharedStoreManager;
                                                selector:@selector(updateFromiCloud:)
                                                    name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
                                                  object:nil];
-    
     
   }
   return _sharedStoreManager;
@@ -261,10 +289,12 @@ static MKStoreManager* _sharedStoreManager;
   NSArray *consumables = [[[MKStoreManager storeKitItems] objectForKey:@"Consumables"] allKeys];
   NSArray *nonConsumables = [[MKStoreManager storeKitItems] objectForKey:@"Non-Consumables"];
   NSArray *subscriptions = [[[MKStoreManager storeKitItems] objectForKey:@"Subscriptions"] allKeys];
+    NSArray *nonRenewSubscriptions = [[[MKStoreManager storeKitItems] objectForKey:@"NonRenewableSubscriptions"] allKeys];
   
   [productsArray addObjectsFromArray:consumables];
   [productsArray addObjectsFromArray:nonConsumables];
   [productsArray addObjectsFromArray:subscriptions];
+    [productsArray addObjectsFromArray:nonRenewSubscriptions];
   
 	self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productsArray]];
 	self.productsRequest.delegate = self;
@@ -277,10 +307,12 @@ static MKStoreManager* _sharedStoreManager;
   NSArray *consumables = [[[self storeKitItems] objectForKey:@"Consumables"] allKeys];
   NSArray *nonConsumables = [[self storeKitItems] objectForKey:@"Non-Consumables"];
   NSArray *subscriptions = [[[self storeKitItems] objectForKey:@"Subscriptions"] allKeys];
+    NSArray *nonRenewSubscriptions = [[[self storeKitItems] objectForKey:@"NonRenewableSubscriptions"] allKeys];
   
   [productsArray addObjectsFromArray:consumables];
   [productsArray addObjectsFromArray:nonConsumables];
   [productsArray addObjectsFromArray:subscriptions];
+    [productsArray addObjectsFromArray:nonRenewSubscriptions];
   
   return productsArray;
 }
@@ -522,6 +554,23 @@ static MKStoreManager* _sharedStoreManager;
 	}
 }
 
+- (BOOL) isNonRenewSubscriptionProductActive:(NSString*) productName;
+{
+    NSDate *subscriptionExpiryDate = [self nonRenewSubscriptionProductExpiryDate:productName];
+    if (nil == subscriptionExpiryDate) {
+        return NO;
+    }
+    if ([[subscriptionExpiryDate dateAtEndOfDay] isLaterThanDate:[NSDate date]]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
+{
+    return [MKStoreManager dateForKey:productName];
+}
+
 - (void) startVerifyingSubscriptionReceipts
 {
   NSDictionary *subscriptions = [[MKStoreManager storeKitItems] objectForKey:@"Subscriptions"];
@@ -694,24 +743,39 @@ static MKStoreManager* _sharedStoreManager;
 
 -(void) rememberPurchaseOfProduct:(NSString*) productIdentifier withReceipt:(NSData*) receiptData
 {
-  NSDictionary *allConsumables = [[MKStoreManager storeKitItems] objectForKey:@"Consumables"];
-  if([[allConsumables allKeys] containsObject:productIdentifier])
-  {
-    NSDictionary *thisConsumableDict = [allConsumables objectForKey:productIdentifier];
-    int quantityPurchased = [[thisConsumableDict objectForKey:@"Count"] intValue];
-    NSString* productPurchased = [thisConsumableDict objectForKey:@"Name"];
+    NSDictionary *allConsumables = [[MKStoreManager storeKitItems] objectForKey:@"Consumables"];
+    NSDictionary *allNonRenewSubscriptions = [[MKStoreManager storeKitItems] objectForKey:@"NonRenewableSubscriptions"];
     
-    int oldCount = [[MKStoreManager numberForKey:productPurchased] intValue];
-    int newCount = oldCount + quantityPurchased;
+    if([[allConsumables allKeys] containsObject:productIdentifier])
+    {
+        NSDictionary *thisConsumableDict = [allConsumables objectForKey:productIdentifier];
+        int quantityPurchased = [[thisConsumableDict objectForKey:@"Count"] intValue];
+        NSString* productPurchased = [thisConsumableDict objectForKey:@"Name"];
+        
+        int oldCount = [[MKStoreManager numberForKey:productPurchased] intValue];
+        int newCount = oldCount + quantityPurchased;
+        
+        [MKStoreManager setObject:[NSNumber numberWithInt:newCount] forKey:productPurchased];
+    }
+    else if ([[allNonRenewSubscriptions allKeys] containsObject:productIdentifier]) {
+        NSDictionary *thisItemDict = [allNonRenewSubscriptions objectForKey:productIdentifier];
+        NSInteger monthsSubscribed = [[thisItemDict objectForKey:@"SubscriptionMonths"] integerValue];
+        NSString* productPurchased = [thisItemDict objectForKey:@"Name"];
+        
+        NSDate *currentExpiryDate = [MKStoreManager dateForKey:productPurchased];
+        if (nil == currentExpiryDate || [currentExpiryDate isEarlierThanDate:[NSDate date]]) {
+            currentExpiryDate = [[NSDate date] dateAtStartOfDay];
+        }
+        NSDate *newExpiryDate = [currentExpiryDate dateByAddingComponentMonths:monthsSubscribed];
+        
+        [MKStoreManager setDate:newExpiryDate forKey:productPurchased];
+    }
+    else
+    {
+        [MKStoreManager setObject:[NSNumber numberWithBool:YES] forKey:productIdentifier];
+    }
     
-    [MKStoreManager setObject:[NSNumber numberWithInt:newCount] forKey:productPurchased];
-  }
-  else
-  {
-    [MKStoreManager setObject:[NSNumber numberWithBool:YES] forKey:productIdentifier];
-  }
-  
-  [MKStoreManager setObject:receiptData forKey:[NSString stringWithFormat:@"%@%@", productIdentifier,kProductKeyReceiptSuffix]];
+    [MKStoreManager setObject:receiptData forKey:[NSString stringWithFormat:@"%@%@", productIdentifier,kProductKeyReceiptSuffix]];
 }
 
 #pragma -

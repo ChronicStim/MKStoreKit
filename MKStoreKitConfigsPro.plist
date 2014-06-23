@@ -2,18 +2,35 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NonRenewableSubscriptions</key>
+	<dict>
+		<key>com.chronicstimulation.paintracker.weatherhist01</key>
+		<dict>
+			<key>Name</key>
+			<string>Weather History</string>
+			<key>SubscriptionMonths</key>
+			<integer>1</integer>
+		</dict>
+		<key>com.chronicstimulation.paintracker.weatherhist06</key>
+		<dict>
+			<key>Name</key>
+			<string>Weather History</string>
+			<key>SubscriptionMonths</key>
+			<integer>6</integer>
+		</dict>
+		<key>com.chronicstimulation.paintracker.weatherhist12</key>
+		<dict>
+			<key>Name</key>
+			<string>Weather History</string>
+			<key>SubscriptionMonths</key>
+			<integer>12</integer>
+		</dict>
+	</dict>
 	<key>Consumables</key>
 	<dict/>
 	<key>Non-Consumables</key>
 	<array/>
 	<key>Subscriptions</key>
-	<dict>
-		<key>com.chronicstimulation.paintracker.weatherhist01</key>
-		<integer>30</integer>
-		<key>com.chronicstimulation.paintracker.weatherhist06</key>
-		<integer>183</integer>
-		<key>com.chronicstimulation.paintracker.weatherhist12</key>
-		<integer>365</integer>
-	</dict>
+	<dict/>
 </dict>
 </plist>
