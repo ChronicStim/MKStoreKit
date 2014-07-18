@@ -85,6 +85,7 @@
 - (BOOL) isSubscriptionActive:(NSString*) featureId;
 
 // For Non-Renewable Subscription Support
++ (BOOL) isNonRenewSubscriptionProductAvailableInStoreForProductName:(NSString*) productName;
 - (BOOL) isNonRenewSubscriptionProductActive:(NSString*) productName;
 - (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
 
@@ -100,5 +101,6 @@
 +(void) setDate:(NSDate *)date forKey:(NSString*) key;
 
 +(NSDictionary*) storeKitItems;
++(BOOL)storeKitIncludesProductForKey:(NSString *)productKey;
 
 @end

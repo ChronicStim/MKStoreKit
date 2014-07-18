@@ -317,6 +317,20 @@ static MKStoreManager* _sharedStoreManager;
   return productsArray;
 }
 
++(BOOL)storeKitIncludesProductForKey:(NSString *)productKey;
+{
+    if (nil == productKey) {
+        return NO;
+    }
+    NSUInteger productIndex = [[self allProducts] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [(NSString *)obj isEqualToString:productKey];
+    }];
+    if (NSNotFound != productIndex) {
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL) removeAllKeychainData {
   
   NSMutableArray *productsArray = [MKStoreManager allProducts];
@@ -552,6 +566,25 @@ static MKStoreManager* _sharedStoreManager;
     [MKStoreManager setObject:[NSNumber numberWithInt:count] forKey:productIdentifier];
 		return YES;
 	}
+}
+
++ (BOOL) isNonRenewSubscriptionProductAvailableInStoreForProductName:(NSString*) productName;
+{
+    NSArray *nonRenewSubscriptions = [[[self storeKitItems] objectForKey:@"NonRenewableSubscriptions"] allKeys];
+    if (nil == nonRenewSubscriptions || 0 == [nonRenewSubscriptions count]) {
+        return NO;
+    }
+    NSUInteger matchingIndex = [nonRenewSubscriptions indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *subscriptionProductName = [(NSDictionary *)obj objectForKey:@"Name"];
+        if (nil != subscriptionProductName && [productName isEqualToString:subscriptionProductName]) {
+            return YES;
+        }
+        return NO;
+    }];
+    if (NSNotFound != matchingIndex) {
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL) isNonRenewSubscriptionProductActive:(NSString*) productName;

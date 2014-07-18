@@ -3,29 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NonRenewableSubscriptions</key>
-	<dict>
-		<key>com.chronicstimulation.paintrackerlite.weatherhist01</key>
-		<dict>
-			<key>Name</key>
-			<string>Weather History</string>
-			<key>SubscriptionMonths</key>
-			<integer>1</integer>
-		</dict>
-		<key>com.chronicstimulation.paintrackerlite.weatherhist06</key>
-		<dict>
-			<key>Name</key>
-			<string>Weather History</string>
-			<key>SubscriptionMonths</key>
-			<integer>6</integer>
-		</dict>
-		<key>com.chronicstimulation.paintrackerlite.weatherhist12</key>
-		<dict>
-			<key>Name</key>
-			<string>Weather History</string>
-			<key>SubscriptionMonths</key>
-			<integer>12</integer>
-		</dict>
-	</dict>
+	<dict/>
 	<key>Consumables</key>
 	<dict>
 		<key>com.chronicstimulation.paintrackerlite.diaryentry200</key>
