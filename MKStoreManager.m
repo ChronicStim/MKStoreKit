@@ -42,6 +42,7 @@
 #import "PainTrackerAppDelegate.h"
 #import "MKSKNonRenewSubscriptionProduct.h"
 #import "NSDate-Utilities.h"
+#import "ParseIAPHelper.h"
 
 #define kProductKeyReceiptSuffixOld @"-receipt"
 #define kProductKeyReceiptSuffix @"-rct"
@@ -300,6 +301,8 @@ static MKStoreManager* _sharedStoreManager;
 	self.productsRequest.delegate = self;
 	[self.productsRequest start];
 }
+
+
 
 +(NSMutableArray*) allProducts {
   
@@ -802,6 +805,7 @@ static MKStoreManager* _sharedStoreManager;
         NSDate *newExpiryDate = [currentExpiryDate dateByAddingComponentMonths:monthsSubscribed];
         
         [MKStoreManager setDate:newExpiryDate forKey:productPurchased];
+        [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productPurchased wasUpdatedAt:newExpiryDate];
     }
     else
     {
