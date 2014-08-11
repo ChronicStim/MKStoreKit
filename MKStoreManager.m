@@ -573,12 +573,17 @@ static MKStoreManager* _sharedStoreManager;
 
 + (BOOL) isNonRenewSubscriptionProductAvailableInStoreForProductName:(NSString*) productName;
 {
-    NSArray *nonRenewSubscriptions = [[[self storeKitItems] objectForKey:@"NonRenewableSubscriptions"] allKeys];
-    if (nil == nonRenewSubscriptions || 0 == [nonRenewSubscriptions count]) {
+    NSDictionary *nonRenewSubscriptions = [[self storeKitItems] objectForKey:@"NonRenewableSubscriptions"];
+    if (nil == nonRenewSubscriptions) {
         return NO;
     }
-    NSUInteger matchingIndex = [nonRenewSubscriptions indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *subscriptionProductName = [(NSDictionary *)obj objectForKey:@"Name"];
+    NSArray *nrSubscriptionKeyArray = [nonRenewSubscriptions allKeys];
+    if (0 == [nrSubscriptionKeyArray count]) {
+        return NO;
+    }
+    NSUInteger matchingIndex = [nrSubscriptionKeyArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *nrSubscriptionDict = [nonRenewSubscriptions objectForKey:(NSString *)obj];
+        NSString *subscriptionProductName = [nrSubscriptionDict objectForKey:@"Name"];
         if (nil != subscriptionProductName && [productName isEqualToString:subscriptionProductName]) {
             return YES;
         }
