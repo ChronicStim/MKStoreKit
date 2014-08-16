@@ -696,6 +696,8 @@ static MKStoreManager* _sharedStoreManager;
         
         [[SKPaymentQueue defaultQueue] finishTransaction:download.transaction];
         break;
+    default:
+        break;
     }
   }];
 }
