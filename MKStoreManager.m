@@ -609,7 +609,7 @@ static MKStoreManager* _sharedStoreManager;
 
 - (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
 {
-    return [MKStoreManager dateForKey:productName];
+    return [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productName];
 }
 
 - (void) startVerifyingSubscriptionReceipts
@@ -811,7 +811,10 @@ static MKStoreManager* _sharedStoreManager;
         }
         NSDate *newExpiryDate = [currentExpiryDate dateByAddingComponentMonths:monthsSubscribed];
         
-        [MKStoreManager setDate:newExpiryDate forKey:productPurchased];
+        // Let the Parse controller save the new expire date to the MKStoreKit using a combination key of the Parse username and product name
+        [[ParseIAPHelper sharedParseIAPHelper] setLocalExpireDate:newExpiryDate ForProductName:productPurchased];
+        
+        // Tell the Parse controller that the local value has changed and a comparison with the server side should be run
         [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productPurchased wasUpdatedAt:newExpiryDate];
     }
     else
