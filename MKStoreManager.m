@@ -527,7 +527,7 @@ static MKStoreManager* _sharedStoreManager;
   if ([SKPaymentQueue canMakePayments])
 	{
     NSArray *allIds = [self.purchasableObjects valueForKey:@"productIdentifier"];
-    int index = [allIds indexOfObject:productId];
+    NSUInteger index = [allIds indexOfObject:productId];
     
     if(index == NSNotFound) return;
     
