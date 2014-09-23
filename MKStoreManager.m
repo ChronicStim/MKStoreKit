@@ -337,7 +337,7 @@ static MKStoreManager* _sharedStoreManager;
 - (BOOL) removeAllKeychainData {
   
   NSMutableArray *productsArray = [MKStoreManager allProducts];
-  int itemCount = productsArray.count;
+  NSUInteger itemCount = productsArray.count;
   NSError *error;
   
   //loop through all the saved keychain data and remove it
