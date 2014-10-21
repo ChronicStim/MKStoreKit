@@ -686,18 +686,20 @@ static MKStoreManager* _sharedStoreManager;
     SKDownload *download = obj;
     
     switch (download.downloadState) {
-      case SKDownloadStateFinished:
+        case SKDownloadStateFinished: {
 #ifndef NDEBUG
         NSLog(@"Download finished: %@", [download description]);
 #endif
+            // NSData *receiptData = download.transaction.transactionReceipt;
+            NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
         [self provideContent:download.transaction.payment.productIdentifier
-                  forReceipt:download.transaction.transactionReceipt
+                  forReceipt:receiptData
                hostedContent:[NSArray arrayWithObject:download]];
         
         [[SKPaymentQueue defaultQueue] finishTransaction:download.transaction];
-        break;
-    default:
-        break;
+        }  break;
+        default:
+            break;
     }
   }];
 }
@@ -903,8 +905,10 @@ static MKStoreManager* _sharedStoreManager;
   }
 #endif
   
+    //            NSData *receiptData = download.transaction.transactionReceipt;
+    NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
   [self provideContent:transaction.payment.productIdentifier
-            forReceipt:transaction.transactionReceipt
+            forReceipt:receiptData
          hostedContent:downloads];
 #elif TARGET_OS_MAC
   [self provideContent:transaction.payment.productIdentifier
@@ -935,8 +939,10 @@ static MKStoreManager* _sharedStoreManager;
   }
 #endif
   
+    //            NSData *receiptData = download.transaction.transactionReceipt;
+    NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
   [self provideContent: transaction.originalTransaction.payment.productIdentifier
-            forReceipt:transaction.transactionReceipt
+            forReceipt:receiptData
          hostedContent:downloads];
 #elif TARGET_OS_MAC
   [self provideContent: transaction.originalTransaction.payment.productIdentifier
