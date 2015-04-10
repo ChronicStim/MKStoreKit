@@ -161,12 +161,12 @@ static MKStoreManager* _sharedStoreManager;
     if(!receipt) {
         NSString *receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffixOld];
         NSUInteger keyLength = [receiptKey length];
-        DDLogVerbose(@"Receipt OLD key (%lu) = %@",(unsigned long)keyLength,receiptKey);
+       //DDLogVerbose(@"Receipt OLD key (%lu) = %@",(unsigned long)keyLength,receiptKey);
         receipt = [MKStoreManager objectForKey:receiptKey];
         if (nil == receipt) {
             receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffix];
             NSUInteger keyLength = [receiptKey length];
-            DDLogVerbose(@"Receipt NEW key (%lu) = %@",(unsigned long)keyLength,receiptKey);
+           //DDLogVerbose(@"Receipt NEW key (%lu) = %@",(unsigned long)keyLength,receiptKey);
             receipt = [MKStoreManager objectForKey:receiptKey];
         }
     }
@@ -178,7 +178,7 @@ static MKStoreManager* _sharedStoreManager;
 {
   NSError *error = nil;
   id password = [SFHFKeychainUtils getPasswordForUsername:key andServiceName:@"MKStoreKit" error:&error];
-    DDLogVerbose(@"MKStoreKit password = %@ for key: %@",password,key);
+   //DDLogVerbose(@"MKStoreKit password = %@ for key: %@",password,key);
   if(error) NSLog(@"%@", error);
   
   return password;
@@ -201,7 +201,7 @@ static MKStoreManager* _sharedStoreManager;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    DDLogVerbose(@"Returning date: %@ from string: %@ for key: %@",[dateFormatter dateFromString:str],str,key);
+   //DDLogVerbose(@"Returning date: %@ from string: %@ for key: %@",[dateFormatter dateFromString:str],str,key);
     return [dateFormatter dateFromString:str];
 }
 
@@ -214,7 +214,7 @@ static MKStoreManager* _sharedStoreManager;
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         NSString *str = [dateFormatter stringFromDate:date];
-        DDLogVerbose(@"Storing date: %@ with string: %@ for key: %@",date,str,key);
+       //DDLogVerbose(@"Storing date: %@ with string: %@ for key: %@",date,str,key);
         [MKStoreManager setObject:str forKey:key];
     }
 }
