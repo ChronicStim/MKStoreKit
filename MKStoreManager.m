@@ -161,12 +161,12 @@ static MKStoreManager* _sharedStoreManager;
     if(!receipt) {
         NSString *receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffixOld];
         NSUInteger keyLength = [receiptKey length];
-       //DDLogVerbose(@"Receipt OLD key (%lu) = %@",(unsigned long)keyLength,receiptKey);
+        DDLogVerbose(@"Receipt OLD key (%lu) = %@",(unsigned long)keyLength,receiptKey);
         receipt = [MKStoreManager objectForKey:receiptKey];
         if (nil == receipt) {
             receiptKey = [NSString stringWithFormat:@"%@%@",key,kProductKeyReceiptSuffix];
             NSUInteger keyLength = [receiptKey length];
-           //DDLogVerbose(@"Receipt NEW key (%lu) = %@",(unsigned long)keyLength,receiptKey);
+            DDLogVerbose(@"Receipt NEW key (%lu) = %@",(unsigned long)keyLength,receiptKey);
             receipt = [MKStoreManager objectForKey:receiptKey];
         }
     }
