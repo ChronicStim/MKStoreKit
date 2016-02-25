@@ -45,11 +45,11 @@
 #define kFeatureComparisonReportID @"com.chronicstimulation.paintrackerlite.comparereport"
 #define kFeatureCalendarReportID @"com.chronicstimulation.paintrackerlite.calendarreport"
 #define kSubscriptionWeatherHistory01ID @"com.chronicstimulation.paintrackerlite.wxhist01"
-#define kSubscriptionWeatherHistoryPro01ID @"com.chronicstimulation.paintracker.wxhist01"
+#define kSubscriptionWeatherHistoryPro01ID [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".wxhist01"]
 #define kSubscriptionWeatherHistory06ID @"com.chronicstimulation.paintrackerlite.wxhist06"
-#define kSubscriptionWeatherHistoryPro06ID @"com.chronicstimulation.paintracker.wxhist06"
+#define kSubscriptionWeatherHistoryPro06ID [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".wxhist06"]
 #define kSubscriptionWeatherHistory12ID @"com.chronicstimulation.paintrackerlite.wxhist12"
-#define kSubscriptionWeatherHistoryPro12ID @"com.chronicstimulation.paintracker.wxhist12"
+#define kSubscriptionWeatherHistoryPro12ID [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".wxhist12"]
 #define kNonRenewSubscriptionWeatherHistoryProductName @"WeatherHistory"
 
 //#define kConsumableFeatureBId @"com.chronicstimulation.chronicpaintracker.005"

@@ -43,6 +43,7 @@
 #import "MKSKNonRenewSubscriptionProduct.h"
 #import "NSDate-Utilities.h"
 #import "ParseIAPHelper.h"
+#import "CPTStartupController.h"
 
 #define kProductKeyReceiptSuffixOld @"-receipt"
 #define kProductKeyReceiptSuffix @"-rct"
@@ -251,11 +252,24 @@ static MKStoreManager* _sharedStoreManager;
 +(NSDictionary*) storeKitItems
 {
     NSString *configFileName;
-    if ([(PainTrackerAppDelegate *)[[UIApplication sharedApplication] delegate] checkIfLiteVersion]) {
-        configFileName = @"MKStoreKitConfigsLite.plist";
-    } else {
-        configFileName = @"MKStoreKitConfigsPro.plist";
+    switch ([[CPTStartupController sharedCPTStartupController] currentAppVersionCode]) {
+        case AVC_Lite:
+            configFileName = @"MKStoreKitConfigsLite.plist";
+            break;
+        case AVC_Pro:
+            configFileName = @"MKStoreKitConfigsPro.plist";
+            break;
+        case AVC_ProBeta:
+            configFileName = @"MKStoreKitConfigsBeta.plist";
+            break;
+        default:
+            configFileName = nil;
+            break;
     }
+    if (nil == configFileName) {
+        return [NSDictionary new];
+    }
+    
     return [NSDictionary dictionaryWithContentsOfFile:
           [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:
            configFileName]];
