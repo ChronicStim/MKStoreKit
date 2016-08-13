@@ -585,6 +585,10 @@ static MKStoreManager* _sharedStoreManager;
         NSDictionary *nrSubscriptionDict = [nonRenewSubscriptions objectForKey:(NSString *)obj];
         NSString *subscriptionProductName = [nrSubscriptionDict objectForKey:@"Name"];
         if (nil != subscriptionProductName && [productName isEqualToString:subscriptionProductName]) {
+            if ([@"WeatherHistory" isEqualToString:productName]) {
+                // Weather History is no longer offered as IAP; This check is included to make sure app doesn't show it as being avail for purchase
+                return NO;
+            }
             return YES;
         }
         return NO;
