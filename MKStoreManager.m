@@ -42,7 +42,6 @@
 #import "PainTrackerAppDelegate.h"
 #import "MKSKNonRenewSubscriptionProduct.h"
 #import "NSDate-Utilities.h"
-#import "ParseIAPHelper.h"
 #import "CPTStartupController.h"
 
 #define kProductKeyReceiptSuffixOld @"-receipt"
@@ -627,7 +626,7 @@ static MKStoreManager* _sharedStoreManager;
 
 - (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
 {
-    return [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productName];
+    return [NSDate distantFuture];
 }
 
 - (void) startVerifyingSubscriptionReceipts
@@ -821,6 +820,7 @@ static MKStoreManager* _sharedStoreManager;
         [MKStoreManager setObject:[NSNumber numberWithInt:newCount] forKey:productPurchased];
     }
     else if ([[allNonRenewSubscriptions allKeys] containsObject:productIdentifier]) {
+        /*
         NSDictionary *thisItemDict = [allNonRenewSubscriptions objectForKey:productIdentifier];
         NSInteger monthsSubscribed = [[thisItemDict objectForKey:@"SubscriptionMonths"] integerValue];
         NSString* productPurchased = [thisItemDict objectForKey:@"Name"];
@@ -836,6 +836,7 @@ static MKStoreManager* _sharedStoreManager;
         
         // Tell the Parse controller that the local value has changed and a comparison with the server side should be run
         [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productPurchased wasUpdatedAt:newExpiryDate];
+         */
     }
     else
     {
