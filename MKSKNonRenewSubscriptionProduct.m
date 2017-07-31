@@ -9,8 +9,8 @@
 #import "MKSKNonRenewSubscriptionProduct.h"
 #import "NSData+MKBase64.h"
 
-static void (^onReviewRequestVerificationSucceeded)();
-static void (^onReviewRequestVerificationFailed)();
+static void (^onReviewRequestVerificationSucceeded)(void);
+static void (^onReviewRequestVerificationFailed)(void);
 static NSURLConnection *sConnection;
 static NSMutableData *sDataFromConnection;
 

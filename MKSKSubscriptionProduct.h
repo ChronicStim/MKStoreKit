@@ -35,7 +35,7 @@
 
 @interface MKSKSubscriptionProduct : NSObject
 
-@property (nonatomic, copy) void (^onSubscriptionVerificationFailed)();
+@property (nonatomic, copy) void (^onSubscriptionVerificationFailed)(NSError*);
 @property (nonatomic, copy) void (^onSubscriptionVerificationCompleted)(NSNumber* isActive);
 @property (nonatomic, strong) NSData *receipt;
 @property (nonatomic, readonly) NSDictionary *verifiedReceiptDictionary;
