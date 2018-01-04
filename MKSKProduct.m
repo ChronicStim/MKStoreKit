@@ -41,8 +41,8 @@
 #error "MKStoreKit uses features (NSJSONSerialization) only available in iOS SDK  and later."
 #endif
 
-static void (^onReviewRequestVerificationSucceeded)();
-static void (^onReviewRequestVerificationFailed)();
+static void (^onReviewRequestVerificationSucceeded)(void);
+static void (^onReviewRequestVerificationFailed)(void);
 static NSURLConnection *sConnection;
 static NSMutableData *sDataFromConnection;
 
@@ -285,7 +285,7 @@ didReceiveResponse:(NSURLResponse *)response
   else
   {
     if(onReviewRequestVerificationFailed)
-      onReviewRequestVerificationFailed(nil);
+      onReviewRequestVerificationFailed();
     
     onReviewRequestVerificationFailed = nil;
   }
@@ -300,7 +300,7 @@ didReceiveResponse:(NSURLResponse *)response
   
   if(onReviewRequestVerificationFailed)
   {
-    onReviewRequestVerificationFailed(nil);    
+    onReviewRequestVerificationFailed();    
     onReviewRequestVerificationFailed = nil;
   }
 }
