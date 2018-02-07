@@ -251,7 +251,7 @@ static MKStoreManager* _sharedStoreManager;
 +(NSDictionary*) storeKitItems
 {
     NSString *configFileName;
-    if ([(PainTrackerAppDelegate *)[[UIApplication sharedApplication] delegate] checkIfLiteVersion]) {
+    if ([[GlobalDefaults sharedGlobalDefaults] checkIfLiteVersion]) {
         configFileName = @"MKStoreKitConfigsLite.plist";
     } else {
         configFileName = @"MKStoreKitConfigsPro.plist";
