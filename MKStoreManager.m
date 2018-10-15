@@ -42,7 +42,6 @@
 #import "PainTrackerAppDelegate.h"
 #import "MKSKNonRenewSubscriptionProduct.h"
 #import "NSDate-Utilities.h"
-#import "ParseIAPHelper.h"
 
 #define kProductKeyReceiptSuffixOld @"-receipt"
 #define kProductKeyReceiptSuffix @"-rct"
@@ -613,7 +612,7 @@ static MKStoreManager* _sharedStoreManager;
 
 - (NSDate *) nonRenewSubscriptionProductExpiryDate:(NSString *)productName;
 {
-    return [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productName];
+    return [NSDate distantFuture];
 }
 
 - (void) startVerifyingSubscriptionReceipts
@@ -807,6 +806,7 @@ static MKStoreManager* _sharedStoreManager;
         [MKStoreManager setObject:[NSNumber numberWithInt:newCount] forKey:productPurchased];
     }
     else if ([[allNonRenewSubscriptions allKeys] containsObject:productIdentifier]) {
+        /* // DELETED -
         NSDictionary *thisItemDict = [allNonRenewSubscriptions objectForKey:productIdentifier];
         NSInteger monthsSubscribed = [[thisItemDict objectForKey:@"SubscriptionMonths"] integerValue];
         NSString* productPurchased = [thisItemDict objectForKey:@"Name"];
@@ -818,10 +818,11 @@ static MKStoreManager* _sharedStoreManager;
         NSDate *newExpiryDate = [currentExpiryDate dateByAddingComponentMonths:monthsSubscribed];
         
         // Let the Parse controller save the new expire date to the MKStoreKit using a combination key of the Parse username and product name
-        [[ParseIAPHelper sharedParseIAPHelper] setLocalExpireDate:newExpiryDate ForProductName:productPurchased];
+        // DELETED - [[ParseIAPHelper sharedParseIAPHelper] setLocalExpireDate:newExpiryDate ForProductName:productPurchased];
         
         // Tell the Parse controller that the local value has changed and a comparison with the server side should be run
-        [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productPurchased wasUpdatedAt:newExpiryDate];
+        // DELETED - [[ParseIAPHelper sharedParseIAPHelper] localExpireDateForProductName:productPurchased wasUpdatedAt:newExpiryDate];
+         */
     }
     else
     {
